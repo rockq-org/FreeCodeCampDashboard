@@ -4,6 +4,7 @@
 var crawler = require('./crawler'),
     Q = require('q'),
     util = require('util'),
+    _ = require('lodash'),
     log = require('../utils/loggerUtil').getLogger('service/user');
 
 /**
@@ -42,12 +43,14 @@ function _getProfile(githubId) {
                 // console.log('sss#', index, i);
                 switch (index) {
                     case 0:
-                        console.log('##0', i.children[0].data);
                         profile.name = i.children[0].data;
                         break;
                     case 1:
-                        console.log('##0', i.children[0].data);
-                        profile.location = i.children[0].data;
+                        try {
+                            profile.location = i.children[0].data;
+                        } catch (e) {
+                            log.warn('_getProfile', "can not get location.");
+                        }
                         break;
                     default:
                         break;
@@ -60,11 +63,43 @@ function _getProfile(githubId) {
             deferred.resolve(profile);
         })
         .fail(function(err) {
+            log.info('getProfile', err);
             deferred.reject(err);
         });
 
     return deferred.promise;
 }
 
+/**
+ * [_getRank description]
+ * @param  {[type]} githubIds [description]
+ * @return {[type]}           [description]
+ */
+function _getRank(githubIds) {
+    var promises = [];
+    var deferred = Q.defer();
+
+    _.each(githubIds, function(val, index) {
+        promises.push(_getProfile(val));
+    })
+
+    Q.allSettled(promises).then(function(results) {
+        var collection = [];
+        results.forEach(function(result) {
+            if (result.state === "fulfilled") {
+                collection.push(result.value);
+            }
+        });
+        deferred.resolve(_.sortBy(collection, function(o) {
+            return parseInt(o.progress.slice(2, -2).trim());
+        }).reverse());
+        
+    }, function(err) {
+        deferred.reject(err);
+    });
+
+    return deferred.promise;
+}
 
 exports.getProfile = _getProfile;
+exports.getRank = _getRank;
