@@ -20,12 +20,10 @@ exports.getProfile = function(githubId) {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         })
-        // resolve author
         .then(function(response) {
             var result = response.result,
                 $ = response.$;
 
-            log.info('get profile result', result);
             // $('.b-content .a-wrap.corner').each(function(index, b) {
             //     if (index == 0) {
             //         $AuthorEl = $(b).find('div.a-wrap.corner .article .a-u-name');
