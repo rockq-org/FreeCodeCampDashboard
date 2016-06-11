@@ -1,3 +1,4 @@
 *.swp
 *.swo
 *.sublime-*
+node_modules
