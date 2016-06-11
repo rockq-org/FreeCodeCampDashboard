@@ -2,3 +2,5 @@
 *.swo
 *.sublime-*
 node_modules
+config/environment/development.js
+config/environment/production.js
