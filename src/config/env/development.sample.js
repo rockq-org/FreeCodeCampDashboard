@@ -5,6 +5,7 @@
  */
 
 module.exports = {
+    port: 6999,
     db: 'mongodb://localhost/noobjs_dev',
     github: {
         clientID: process.env.GITHUB_CLIENTID,
