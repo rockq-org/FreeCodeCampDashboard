@@ -1,6 +1,7 @@
-h3
-  p= user.name
+div
+  h3(style="text-align: center;")= user.name + ' 进度#' + user.progress
 
-  p= user.progress
+  img(src=user.avatar width=200 height=200 style="display: block;margin: 0 auto;")
 
-  img(src=user.avatar width=400 height=400)
+  br
+  br
