@@ -1,6 +1,6 @@
-*.swp
-*.swo
-*.sublime-*
-node_modules
-config/environment/development.js
-config/environment/production.js
+src/node_modules/
+.monitor
+src/config/env/env.json
+Makefile
+.DS_Store
+.env
