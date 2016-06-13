@@ -25,7 +25,7 @@ exports.index = async(function*(req, res) {
     const count = users.length;
 
     res.render('fccusers/index', {
-        title: '紫禁之巅分舵',
+        title: '紫禁之巅分舵@freecodecamp.com',
         users: users,
         page: page + 1,
         pages: Math.ceil(count / limit)
