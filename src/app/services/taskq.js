@@ -20,7 +20,7 @@ function _construct() {
 // start
 function _start() {
     // init 
-    store.set('ranking', {});
+    store.set('ranking', []);
     _construct();
     // start slave
     slave = new CronJob({

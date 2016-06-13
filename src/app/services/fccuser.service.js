@@ -89,7 +89,7 @@ function _getRank(githubIds) {
                 collection.push(result.value);
             }
         });
-        deferred.resolve(_.sortBy(collection, 'progress name').reverse());
+        deferred.resolve(_.sortBy(collection, 'progress').reverse());
     }, function(err) {
         log.error('_getRank', err);
         deferred.reject(err);
