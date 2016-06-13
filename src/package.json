@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-express-mongoose-demo",
+  "name": "freecodecamp-dashboard",
   "description": "A demo app illustrating the usage of express, mongoose, passportjs, swig and other modules in nodejs",
   "keywords": [
     "express",
@@ -10,10 +10,10 @@
   ],
   "version": "4.0.0",
   "private": false,
-  "author": "Madhusudhan Srinivasa <madhums8@gmail.com> (http://madhums.github.com)",
+  "author": "Hai Liang Wang <hailiang.hl.wang@gmail.com> (http://github.com/rockq-org)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/madhums/node-express-mongoose-demo.git"
+    "url": "https://github.com/rockq-org/FreeCodeCampDashboard.git"
   },
   "license": "MIT",
   "engines": {
