@@ -1,6 +1,9 @@
 src/node_modules/
 .monitor
 src/config/env/env.json
+src/config/env/development.js
+*.swp
+*.swo
 Makefile
 .DS_Store
 .env
