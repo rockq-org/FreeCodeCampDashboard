@@ -6,6 +6,7 @@ var config = require('../../config');
 var async = require('co').wrap;
 var fccuserService = require('../services/fccuser.service.js');
 var log = require('../utils/loggerUtil').getLogger('controllers/fccusers');
+var store = require('../services/store');
 
 /**
  * List
@@ -19,7 +20,7 @@ exports.index = async(function*(req, res) {
     };
 
     // const articles = yield Article.list(options);
-    const users = yield fccuserService.getRank(config.fccusers);
+    const users = store.get('ranking');
     log.debug('index', users);
     const count = users.length;
 
