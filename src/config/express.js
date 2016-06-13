@@ -15,7 +15,7 @@ const methodOverride = require('method-override');
 const csrf = require('csurf');
 const upload = require('multer')();
 
-const mongoStore = require('connect-mongo')(session);
+// const mongoStore = require('connect-mongo')(session);
 const flash = require('connect-flash');
 const winston = require('winston');
 const helpers = require('view-helpers');
@@ -83,15 +83,15 @@ module.exports = function(app, passport) {
         resave: false,
         saveUninitialized: true,
         secret: pkg.name,
-        store: new mongoStore({
-            url: config.db,
-            collection: 'sessions'
-        })
+        // store: new mongoStore({
+        //     url: config.db,
+        //     collection: 'sessions'
+        // })
     }));
 
     // use passport session
-    app.use(passport.initialize());
-    app.use(passport.session());
+    // app.use(passport.initialize());
+    // app.use(passport.session());
 
     // connect flash for flash messages - should be declared after sessions
     app.use(flash());

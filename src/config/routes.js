@@ -30,7 +30,7 @@ const fail = {
  */
 
 module.exports = function(app, passport) {
-    const pauth = passport.authenticate.bind(passport);
+    // const pauth = passport.authenticate.bind(passport);
 
     // user routes
     app.get('/login', users.login);
@@ -70,8 +70,8 @@ module.exports = function(app, passport) {
 
     });
     app.get('/users/:userId', users.show);
-    app.get('/auth/github', pauth('github', fail), users.signin);
-    app.get('/auth/github/callback', pauth('github', fail), users.authCallback);
+    // app.get('/auth/github', pauth('github', fail), users.signin);
+    // app.get('/auth/github/callback', pauth('github', fail), users.authCallback);
     app.param('userId', users.load);
 
     // article routes

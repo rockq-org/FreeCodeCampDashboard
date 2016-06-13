@@ -16,7 +16,8 @@ const fs = require('fs');
 const join = require('path').join;
 const express = require('express');
 const mongoose = require('mongoose');
-const passport = require('passport');
+// const passport = require('passport');
+const passport = null;
 const config = require('./config');
 
 const models = join(__dirname, 'app/models');
@@ -35,14 +36,16 @@ fs.readdirSync(models)
     .forEach(file => require(join(models, file)));
 
 // Bootstrap routes
-require('./config/passport')(passport);
+// require('./config/passport')(passport);
 require('./config/express')(app, passport);
 require('./config/routes')(app, passport);
 
-connect()
-    .on('error', console.log)
-    .on('disconnected', connect)
-    .once('open', listen);
+// connect()
+//     .on('error', console.log)
+//     .on('disconnected', connect)
+//     .once('open', listen);
+
+listen();
 
 function listen() {
     if (app.get('env') === 'test') return;
