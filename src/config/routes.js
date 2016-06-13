@@ -12,6 +12,7 @@ const articles = require('../app/controllers/articles');
 const comments = require('../app/controllers/comments');
 const tags = require('../app/controllers/tags');
 const auth = require('./middlewares/authorization');
+const fccusers = require('../app/controllers/fccusers');
 
 /**
  * Route middlewares
@@ -84,7 +85,7 @@ module.exports = function(app, passport) {
     app.delete('/articles/:id', articleAuth, articles.destroy);
 
     // home route
-    app.get('/', articles.index);
+    app.get('/', fccusers.index);
 
     // comment routes
     app.param('commentId', comments.load);

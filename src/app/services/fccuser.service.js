@@ -5,7 +5,7 @@ var crawler = require('./crawler'),
     Q = require('q'),
     util = require('util'),
     _ = require('lodash'),
-    log = require('../utils/loggerUtil').getLogger('services/user');
+    log = require('../utils/loggerUtil').getLogger('services/fccusers');
 
 /**
  * get user profile by github id
@@ -24,23 +24,15 @@ function _getProfile(githubId) {
         .then(function(response) {
             var result = response.result,
                 $ = response.$,
-                profile = { github: githubId },
-                d = Q.defer();
+                profile = { github: githubId };
 
+            log.debug('_getProfile', 'process', githubId);
+            // avatar
             $('img.public-profile-img').each(function(index, i) {
                 profile.avatar = i.attribs.src;
-                d.resolve({
-                    $: $,
-                    profile: profile
-                });
             });
-            return d.promise;
-        })
-        .then(function(resource) {
-            var $ = resource.$;
-            var profile = resource.profile;
+            // name and location
             $('h1.flat-top.wrappable').each(function(index, i) {
-                // console.log('sss#', index, i);
                 switch (index) {
                     case 0:
                         profile.name = i.children[0].data;
@@ -58,12 +50,18 @@ function _getProfile(githubId) {
             });
             $('h1.flat-top.text-primary').each(function(index, i) {
                 if (index == 0)
-                    profile.progress = i.children[0].data;
+                    profile.progress = parseInt(i.children[0].data.slice(2, -2).trim());
             });
-            deferred.resolve(profile);
+            log.debug('githubId', githubId, 'profile', profile);
+            if (profile.progress) {
+                deferred.resolve(profile);
+            } else {
+                log.warn('_getProfile', githubId, 'is not a freecodecamp.com user.');
+                throw new Error(githubId + ' is not a freecodecamp.com user.');
+            }
         })
         .fail(function(err) {
-            log.info('getProfile', err);
+            log.warn('getProfile:err', err);
             deferred.reject(err);
         });
 
@@ -81,20 +79,19 @@ function _getRank(githubIds) {
 
     _.each(githubIds, function(val, index) {
         promises.push(_getProfile(val));
-    })
+    });
 
     Q.allSettled(promises).then(function(results) {
+        log.debug('_getRank', results);
         var collection = [];
         results.forEach(function(result) {
             if (result.state === "fulfilled") {
                 collection.push(result.value);
             }
         });
-        deferred.resolve(_.sortBy(collection, function(o) {
-            return parseInt(o.progress.slice(2, -2).trim());
-        }).reverse());
-        
+        deferred.resolve(_.sortBy(collection, 'progress name').reverse());
     }, function(err) {
+        log.error('_getRank', err);
         deferred.reject(err);
     });
 
